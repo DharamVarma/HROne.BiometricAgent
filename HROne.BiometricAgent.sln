@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HROne.BiometricAgent", "HROne.BiometricAgent\HROne.BiometricAgent.csproj", "{FEC5E606-F9F6-42BB-9A94-3271913D8F5D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BiometricAgent", "BiometricAgent", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BiometricAgentService", "BiometricAgentService", "{1D51EC06-36DD-41A1-BD14-733249772A3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BiometricAgentModel", "BiometricAgentModel", "{E5F9FF7B-1387-43CB-8B78-7DF635EB1192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HROne.BiometricAgentModel", "HROne.BiometricAgentModel\HROne.BiometricAgentModel.csproj", "{2FACB4AD-E414-4073-B556-8EAC1392B901}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A9C515C2-B26D-41C0-9785-D821022E3B29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HROne.BiometricAgent.Common", "HROne.BiometricAgent.Common\HROne.BiometricAgent.Common.csproj", "{8DD124F1-8201-4650-ACAC-5FE0AE4553C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HROne.BiometricAgentService.Biz", "HROne.BiometricAgentService.Biz\HROne.BiometricAgentService.Biz.csproj", "{B4DFB0A7-768D-4382-8BED-FF80C3645490}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HROneBiometricAgentSetup", "HROneBiometricAgentSetup", "{A5325BAE-4FCA-47FF-A33B-B9A4F5421B0D}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "HROneBiometricAgentSetup", "HROneBiometricAgentSetup\HROneBiometricAgentSetup.vdproj", "{C24A27EC-3A0B-CF17-38C7-70801E893C0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEC5E606-F9F6-42BB-9A94-3271913D8F5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC5E606-F9F6-42BB-9A94-3271913D8F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC5E606-F9F6-42BB-9A94-3271913D8F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC5E606-F9F6-42BB-9A94-3271913D8F5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FACB4AD-E414-4073-B556-8EAC1392B901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FACB4AD-E414-4073-B556-8EAC1392B901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FACB4AD-E414-4073-B556-8EAC1392B901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FACB4AD-E414-4073-B556-8EAC1392B901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD124F1-8201-4650-ACAC-5FE0AE4553C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD124F1-8201-4650-ACAC-5FE0AE4553C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD124F1-8201-4650-ACAC-5FE0AE4553C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD124F1-8201-4650-ACAC-5FE0AE4553C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4DFB0A7-768D-4382-8BED-FF80C3645490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4DFB0A7-768D-4382-8BED-FF80C3645490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4DFB0A7-768D-4382-8BED-FF80C3645490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4DFB0A7-768D-4382-8BED-FF80C3645490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C24A27EC-3A0B-CF17-38C7-70801E893C0E}.Debug|Any CPU.ActiveCfg = Debug
+		{C24A27EC-3A0B-CF17-38C7-70801E893C0E}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FEC5E606-F9F6-42BB-9A94-3271913D8F5D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2FACB4AD-E414-4073-B556-8EAC1392B901} = {E5F9FF7B-1387-43CB-8B78-7DF635EB1192}
+		{8DD124F1-8201-4650-ACAC-5FE0AE4553C6} = {A9C515C2-B26D-41C0-9785-D821022E3B29}
+		{B4DFB0A7-768D-4382-8BED-FF80C3645490} = {1D51EC06-36DD-41A1-BD14-733249772A3C}
+		{C24A27EC-3A0B-CF17-38C7-70801E893C0E} = {A5325BAE-4FCA-47FF-A33B-B9A4F5421B0D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B25FA84E-6170-44B5-8A1A-011A43312E2B}
+	EndGlobalSection
+EndGlobal

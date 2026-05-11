@@ -1,0 +1,165 @@
+{
+  "ServerSettingTime": "2026-05-08T10:13:51.383",
+  "ServerSettings": [
+    {
+      "BiometricSettingInfo": [
+        {
+          "BiometricSettingId": 29,
+          "ColumnName": "FK_EMPLOYEE_CODE",
+          "BiometricColumnName": "EMP_CODE"
+        },
+        {
+          "BiometricSettingId": 29,
+          "ColumnName": "PUNCH_DATETIME",
+          "BiometricColumnName": "PUNCH_TIME"
+        },
+        {
+          "BiometricSettingId": 29,
+          "ColumnName": "MACHINE_NO",
+          "BiometricColumnName": "MACHINE_NO"
+        },
+        {
+          "BiometricSettingId": 29,
+          "ColumnName": "IPADDRESS",
+          "BiometricColumnName": "IPADDRESS"
+        }
+      ],
+      "BiometricSettingId": 29,
+      "BiometricName": "Biometric1",
+      "ServerType": 1,
+      "ServerName": "HO-SERVER1\\SQLEXPRESS",
+      "ConnectionString": "Data Source=hronedev.database.windows.net,1433;Initial Catalog=Dev_devtest_Development;User ID=hroneuser;Password=Hroneutsw@987$#",
+      "BiometricTableName": "TRN_PUNCH_TIME",
+      "BiometricFrequency": 4,
+      "BiometricServerTypeName": null,
+      "IsActive": true,
+      "ServiceType": "PS"
+    },
+    {
+      "BiometricSettingInfo": [
+        {
+          "BiometricSettingId": 31,
+          "ColumnName": "FK_EMPLOYEE_CODE",
+          "BiometricColumnName": "emp_code"
+        },
+        {
+          "BiometricSettingId": 31,
+          "ColumnName": "PUNCH_DATETIME",
+          "BiometricColumnName": "punch_date"
+        },
+        {
+          "BiometricSettingId": 31,
+          "ColumnName": "MACHINE_NO",
+          "BiometricColumnName": "Machine_no"
+        },
+        {
+          "BiometricSettingId": 31,
+          "ColumnName": "IPADDRESS",
+          "BiometricColumnName": "IP_address"
+        },
+        {
+          "BiometricSettingId": 31,
+          "ColumnName": "PUNCH_TYPE",
+          "BiometricColumnName": "punch_type"
+        }
+      ],
+      "BiometricSettingId": 31,
+      "BiometricName": "Biometric with Postgre",
+      "ServerType": 4,
+      "ServerName": "pg",
+      "ConnectionString": "Host=localhost;Port=5432;Database=punchtransfer;Username=postgres;Password=Hrone@123;",
+      "BiometricTableName": "EMP_PUNCH",
+      "BiometricFrequency": 6,
+      "BiometricServerTypeName": null,
+      "IsActive": true,
+      "ServiceType": "PS"
+    },
+    {
+      "BiometricSettingInfo": [
+        {
+          "BiometricSettingId": 32,
+          "ColumnName": "FK_EMPLOYEE_CODE",
+          "BiometricColumnName": "empcode"
+        },
+        {
+          "BiometricSettingId": 32,
+          "ColumnName": "PUNCH_DATETIME",
+          "BiometricColumnName": "LogDateTime"
+        }
+      ],
+      "BiometricSettingId": 32,
+      "BiometricName": "Biometric MySql Sakata - Prod",
+      "ServerType": 3,
+      "ServerName": "206.1.28.74",
+      "ConnectionString": "Host=206.1.28.74;Port=44111;Database=ebioservernew;User=Biometric;Password=Biometric_123",
+      "BiometricTableName": "hronelogs",
+      "BiometricFrequency": 4,
+      "BiometricServerTypeName": null,
+      "IsActive": true,
+      "ServiceType": "PS"
+    },
+    {
+      "BiometricSettingInfo": [
+        {
+          "BiometricSettingId": 33,
+          "ColumnName": "FK_EMPLOYEE_CODE",
+          "BiometricColumnName": "emp_code"
+        },
+        {
+          "BiometricSettingId": 33,
+          "ColumnName": "PUNCH_DATETIME",
+          "BiometricColumnName": "punch_date"
+        },
+        {
+          "BiometricSettingId": 33,
+          "ColumnName": "MACHINE_NO",
+          "BiometricColumnName": "machin_no"
+        },
+        {
+          "BiometricSettingId": 33,
+          "ColumnName": "IPADDRESS",
+          "BiometricColumnName": "ip_add"
+        },
+        {
+          "BiometricSettingId": 33,
+          "ColumnName": "PUNCH_TYPE",
+          "BiometricColumnName": "punch_type"
+        }
+      ],
+      "BiometricSettingId": 33,
+      "BiometricName": "MS_Access_Bio",
+      "ServerType": 2,
+      "ServerName": "MS_Access_DB_BIO",
+      "ConnectionString": "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\dharmraj.verma\\Documents\\MS_Access_DB_BIO.accdb",
+      "BiometricTableName": "tbl_punch_detail",
+      "BiometricFrequency": 4,
+      "BiometricServerTypeName": null,
+      "IsActive": true,
+      "ServiceType": "PS"
+    },
+    {
+      "BiometricSettingInfo": [
+        {
+          "BiometricSettingId": 34,
+          "ColumnName": "FK_EMPLOYEE_CODE",
+          "BiometricColumnName": "EMP_CODE"
+        },
+        {
+          "BiometricSettingId": 34,
+          "ColumnName": "PUNCH_DATETIME",
+          "BiometricColumnName": "PUNCH_DATE"
+        }
+      ],
+      "BiometricSettingId": 34,
+      "BiometricName": "MySql-Local-Machine",
+      "ServerType": 3,
+      "ServerName": "Biometric_Punch",
+      "ConnectionString": "Host=localhost;Port=3306;Database=punch_transfer;User=root;Password=Hrone@123",
+      "BiometricTableName": "Emp_Punch",
+      "BiometricFrequency": 8,
+      "BiometricServerTypeName": null,
+      "IsActive": true,
+      "ServiceType": "PS"
+    }
+  ]
+}

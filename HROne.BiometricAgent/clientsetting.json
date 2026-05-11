@@ -1,0 +1,5 @@
+{
+  "ClientSetting": {
+    "OnPremisesBiometricServerNames": "HO-SERVER1\SQLEXPRESS" // comma separated
+  }
+}
