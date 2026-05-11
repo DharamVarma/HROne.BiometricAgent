@@ -5,7 +5,6 @@ using HROne.BiometricAgentService.Biz;
 using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
-var configManager = builder.Configuration;
 var section = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(section);
 builder.Services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppSettings>>().Value);
