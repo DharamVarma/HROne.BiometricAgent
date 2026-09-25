@@ -59,7 +59,7 @@ public class TransferBiometricBulkDataService(IAppLoggerFactory _loggerFactory,
             client.DefaultRequestHeaders.Add(ConstBiometricApi.DomainCode, _appSettings.DomainCode);
             var response = await client.PostAsync(ConstBiometricApi.ApiTransferBulkBiometricData, content);
             var result = await response.Content.ReadAsStringAsync();
-            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<int>(result) : 0;
+            return response.StatusCode == System.Net.HttpStatusCode.OK && !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<int>(result) : 0;
         }
         catch (Exception ex)
         {

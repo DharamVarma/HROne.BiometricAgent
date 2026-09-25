@@ -99,7 +99,7 @@ public class PushBiometricMySqlDbService(AppSettings _settings, IAppLoggerFactor
                                                     {
                                                         IsMailSend = true,
                                                         Domain = domainCode,
-                                                        Message = ConstBiometricMail.ConsecutiveFailureEmailBody,
+                                                        Message = string.Format(ConstBiometricMail.ConsecutiveFailureEmailBody, domainCode, model.ServerName),
                                                         ReceiverEmail = _settings.ServiceFailToEmailId,
                                                         IsEmailBlocked = false,
                                                         Subject = ConstBiometricMail.FailureEmailSubject,

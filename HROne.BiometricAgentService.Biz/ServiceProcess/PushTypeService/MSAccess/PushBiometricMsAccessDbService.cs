@@ -100,7 +100,7 @@ public class PushBiometricMsAccessDbService(AppSettings _settings, IAppLoggerFac
                                                     {
                                                         IsMailSend = true,
                                                         Domain = domainCode,
-                                                        Message = ConstBiometricMail.ConsecutiveFailureEmailBody,
+                                                        Message = string.Format(ConstBiometricMail.ConsecutiveFailureEmailBody, domainCode, model.ServerName),
                                                         ReceiverEmail = _settings.ServiceFailToEmailId,
                                                         IsEmailBlocked = false,
                                                         Subject = ConstBiometricMail.FailureEmailSubject,
