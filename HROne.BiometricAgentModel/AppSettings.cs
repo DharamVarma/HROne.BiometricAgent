@@ -17,6 +17,7 @@ public class AppSettings
     public string PunchTransferStartDate { get; set; } = string.Empty;
     public bool AllowWriteFullLog { get; set; }
     public string Version { get; set; } = string.Empty;
+    public int ClientBlockedTillHours { get; set; } = 24;
 }
 
 public class ClientAppSettings
