@@ -1,5 +1,4 @@
 using HROne.BiometricAgent.Common;
-using HROne.BiometricAgentModel;
 using HROne.BiometricAgentService.Biz;
 
 namespace HROne.BiometricAgent
@@ -25,6 +24,8 @@ namespace HROne.BiometricAgent
 
                     // Stop the application after work is done
                     _hostLifetime.StopApplication();
+
+                    await Task.Delay(TimeSpan.FromSeconds(5)); // Delay for 10 seconds before the next iteration
                 }
                 catch (Exception ex)
                 {

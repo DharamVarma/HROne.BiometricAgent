@@ -1,6 +1,7 @@
 using HROne.BiometricAgent.Common;
 using HROne.BiometricAgentModel;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace HROne.BiometricAgentService.Biz;
 
@@ -8,6 +9,7 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
                                   IHttpClientFactory _httpClientFactory, IPushBiometricDbFactory _pushBiometricDbFactory) : IBiometricDataService
 {
     private readonly IAppLogger _logger = _loggerFactory.CreateLogger<BiometricDataService>();
+    private const string DomainNotFoundPrefix = "Domain connection not found :";
 
     public async Task BiometricProcess(string serverSettingFilePath)
     {
@@ -21,6 +23,13 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
                 HROneApiKey = _appSettings.HROneApiKey,
                 ServerSettingFilePath = serverSettingFilePath
             };
+
+            if (DomainBlockStoreService.IsBlocked(domainData.CompnayDomainCode, out var blockedUntilUtc))
+            {
+                _logger.Info($"Domain : [{domainData.CompnayDomainCode}] is blocked until {blockedUntilUtc.ToLocalTime():yyyy-MM-dd HH:mm}. Skipping Biometric Process.");
+                Console.WriteLine($"Domain : [{domainData.CompnayDomainCode}] is blocked until {blockedUntilUtc.ToLocalTime():yyyy-MM-dd HH:mm}. Skipping Biometric Process.");
+                return;
+            }
 
             if (!string.IsNullOrEmpty(domainData.HROneApiKey))
             {
@@ -65,8 +74,18 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
 
     private async Task<BiometricServerSetting?> GetClientServerSettingInfo(DomainDetailsEnitity domainData)
     {
-        DateTime serverSettingTime = await GetClientServerSettingTime(domainData.CompnayDomainCode);
-        
+        DateTime serverSettingTime = DateTime.MinValue;
+        try
+        {
+            serverSettingTime = await GetClientServerSettingTime(domainData.CompnayDomainCode);
+        }
+        catch (DomainNotFoundException ex)
+        {
+            DomainBlockStoreService.Block(ex.DomainCode, _appSettings.ClientBlockedTillHours);
+            _logger.Error($"{DomainNotFoundPrefix} {ex.DomainCode}. Blocked the process for 24 hours.");
+            return null;
+        }
+
         // When API returned a time, check if cached file is still valid
         var (isValid, cachedSettings) = await TryGetValidCachedSettings(domainData.ServerSettingFilePath, serverSettingTime);
         if (isValid && cachedSettings != null)
@@ -96,13 +115,26 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
             client.DefaultRequestHeaders.Add(ConstBiometricApi.DomainCode, _appSettings.DomainCode);
             var response = await client.GetAsync(string.Format(ConstBiometricApi.ApiBiometricSettingTime, domainCode));
             var result = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
+            {
+                return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<DateTime>(result) : DateTime.MinValue;
+            }
+            if (response.StatusCode == HttpStatusCode.InternalServerError && IsDomainNotFound(result, domainCode))
+            {
+                // Domain is inactive or removed: stop calling the API for this client
+
+                Console.WriteLine($"Domain inactive: {domainCode}. Stopping further calls.");
+                throw new DomainNotFoundException(domainCode);
+            }
+            else
             {
                 _logger.Error($"Method - GetClientServerSettingTime() - Api calling failed. Status : {response.StatusCode}, Message : {result}");
                 return DateTime.MinValue;
             }
-
-            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<DateTime>(result) : DateTime.MinValue;
+        }
+        catch (DomainNotFoundException)
+        {
+            throw; // Handled by the caller (blocks the domain for 24 hours)
         }
         catch (Exception ex)
         {
@@ -166,5 +198,33 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
             // File missing or invalid JSON
         }
         return (false, null);
+    }
+
+    private static bool IsDomainNotFound(string body, string domainCode)
+    {
+        if (string.IsNullOrEmpty(body))
+            return false;
+
+        try
+        {
+            var msg = JsonConvert.DeserializeObject<MessageModel>(body);
+            return msg?.Message != null
+                && msg.Message.Trim().Equals($"{DomainNotFoundPrefix} {domainCode}", StringComparison.OrdinalIgnoreCase);
+        }
+        catch (JsonException)
+        {
+            // Response was not JSON, so it cannot be the domain-not-found message
+            return false;
+        }
+    }
+
+    public class DomainNotFoundException : Exception
+    {
+        public string DomainCode { get; }
+        public DomainNotFoundException(string domainCode)
+            : base($"{DomainNotFoundPrefix} {domainCode}")
+        {
+            DomainCode = domainCode;
+        }
     }
 }
