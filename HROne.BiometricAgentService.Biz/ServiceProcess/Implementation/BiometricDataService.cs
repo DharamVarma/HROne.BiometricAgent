@@ -74,10 +74,23 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
 
     private async Task<BiometricServerSetting?> GetClientServerSettingInfo(DomainDetailsEnitity domainData)
     {
-        DateTime serverSettingTime = DateTime.MinValue;
         try
         {
-            serverSettingTime = await GetClientServerSettingTime(domainData.CompnayDomainCode);
+            DateTime serverSettingTime = await GetClientServerSettingTime(domainData.CompnayDomainCode);
+
+            // When API returned a time, check if cached file is still valid
+            var (isValid, cachedSettings) = await TryGetValidCachedSettings(domainData.ServerSettingFilePath, serverSettingTime);
+            if (isValid && cachedSettings != null)
+            {
+                return cachedSettings;
+            }
+            // Cache missing or invalid: fetch from API and persist
+            var biometricSettings = await OnPremisesClientBiometricSettings(domainData.CompnayDomainCode);
+            if (biometricSettings != null)
+            {
+                await WriteServerSettingToJsonFile(biometricSettings, domainData.ServerSettingFilePath);
+            }
+            return biometricSettings;
         }
         catch (DomainNotFoundException ex)
         {
@@ -85,20 +98,6 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
             _logger.Error($"{DomainNotFoundPrefix} {ex.DomainCode}. Blocked the process for 24 hours.");
             return null;
         }
-
-        // When API returned a time, check if cached file is still valid
-        var (isValid, cachedSettings) = await TryGetValidCachedSettings(domainData.ServerSettingFilePath, serverSettingTime);
-        if (isValid && cachedSettings != null)
-        {
-            return cachedSettings;
-        }
-        // Cache missing or invalid: fetch from API and persist
-        var biometricSettings = await OnPremisesClientBiometricSettings(domainData.CompnayDomainCode);
-        if (biometricSettings != null)
-        {
-            await WriteServerSettingToJsonFile(biometricSettings, domainData.ServerSettingFilePath);
-        }
-        return biometricSettings;
     }
 
     private async Task<DateTime> GetClientServerSettingTime(string domainCode)
@@ -157,13 +156,26 @@ public class BiometricDataService(IAppLoggerFactory _loggerFactory, AppSettings 
             client.DefaultRequestHeaders.Add(ConstBiometricApi.DomainCode, _appSettings.DomainCode);
             var response = await client.GetAsync(string.Format(ConstBiometricApi.ApiBiometricSetting, domainCode));
             var result = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
+            {
+                return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<BiometricServerSetting>(result) : null;
+            }
+            if (response.StatusCode == HttpStatusCode.InternalServerError && IsDomainNotFound(result, domainCode))
+            {
+                // Domain is inactive or removed: stop calling the API for this client
+
+                Console.WriteLine($"Domain inactive: {domainCode}. Stopping further calls.");
+                throw new DomainNotFoundException(domainCode);
+            }
+            else
             {
                 _logger.Error($"Method - OnPremisesClientBiometricSettings() - Api calling failed. Status : {response.StatusCode}, Message : {result}");
                 return null;
             }
-
-            return !string.IsNullOrEmpty(result) ? JsonConvert.DeserializeObject<BiometricServerSetting>(result) : null;
+        }
+        catch (DomainNotFoundException)
+        {
+            throw; // Handled by the caller (blocks the domain for 24 hours)
         }
         catch (Exception ex)
         {
